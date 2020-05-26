@@ -2,8 +2,7 @@
   <div id="nav" class="nav">
     <router-link to="/" class="brand">Bunny Tasks UI</router-link>
     <nav>
-      <router-link :to="{ name: 'user-list' }">List</router-link> |
-      <router-link :to="{ name: 'user-create' }">Create</router-link>
+      <router-link :to="{ name: 'user-list' }">Users List</router-link>
     </nav>
   </div>
 </template>

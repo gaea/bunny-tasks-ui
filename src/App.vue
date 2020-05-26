@@ -199,10 +199,10 @@ textarea {
 [type='number'],
 [type='search'],
 [type='password'] {
-  height: 52px;
+  height: 38px;
   width: 100%;
   padding: 0 10px;
-  font-size: 20px;
+  font-size: 16px;
 }
 [type='text']:focus,
 [type='number']:focus,
@@ -219,7 +219,7 @@ textarea {
 }
 select {
   width: 100%;
-  height: 52px;
+  height: 38px;
   padding: 0 24px 0 10px;
   vertical-align: middle;
   background: #fff

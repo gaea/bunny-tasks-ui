@@ -1,18 +1,20 @@
 <template>
   <div>
-    <div class="event-header">
-      <h1><smile-icon size="1x"></smile-icon> #{{ user.name }}</h1>
+    <div class="user-header">
+      <h1 class="title">{{ user.name }}</h1>
     </div>
+    <TaskCreateCard :user="user" />
     <h3 class="task-summary">
       <clipboard-icon size="24"></clipboard-icon>
-      Tasks
-      <span class="badge -fill-gradient">{{
+      <span class="task-list">List of Tasks</span>
+      <span class="badge -fill-gradient">
+        {{
         user.tasks ? user.tasks.length : 0
-      }}</span>
-      <plus-square-icon size="24" />
+        }}
+      </span>
     </h3>
     <ul class="list-group">
-      <TaskCard v-for="task in user.tasks" :key="task.id" :task="task" />
+      <TaskCard v-for="task in user.tasks" :key="task.id" :task="task" :user="user" />
     </ul>
   </div>
 </template>
@@ -20,14 +22,14 @@
 <script>
 import UserService from '@/services/UserService.js'
 import TaskCard from '@/components/TaskCard.vue'
-import { SmileIcon, ClipboardIcon, PlusSquareIcon } from 'vue-feather-icons'
+import TaskCreateCard from '@/components/TaskCreateCard.vue'
+import { ClipboardIcon } from 'vue-feather-icons'
 
 export default {
   components: {
     TaskCard,
-    SmileIcon,
-    ClipboardIcon,
-    PlusSquareIcon
+    TaskCreateCard,
+    ClipboardIcon
   },
   props: ['id'],
   data() {
@@ -39,6 +41,17 @@ export default {
     UserService.getUser(this.id)
       .then(response => {
         this.user = response.data
+
+        this.user.tasks.sort((a, b) => {
+          if (a.id < b.id) {
+            return 1
+          }
+          if (a.id > b.id) {
+            return -1
+          }
+
+          return 0
+        })
       })
       .catch(error => {
         console.log(error.response)
@@ -48,14 +61,21 @@ export default {
 </script>
 
 <style scoped>
+.task-list {
+  padding-left: 10px;
+}
+.task-summary {
+  display: inline;
+}
 .location {
   margin-bottom: 0;
 }
 .location > .icon {
   margin-left: 10px;
 }
-.event-header > .title {
+.user-header > .title {
   margin: 0;
+  text-transform: capitalize;
 }
 .list-group {
   margin: 0;
